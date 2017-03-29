@@ -1,7 +1,13 @@
+WATCHDOG_INTERVAL = 1000;
+
 function watchdog() {
-    if (localStorage['url'].includes('.ipynb')) {
-        show_status();
+    if (localStorage.url.includes('.ipynb')) {
+        interval = setInterval(show_status, WATCHDOG_INTERVAL);
     } else {
+        var last_interval = setInterval(function(){}, 9999);
+        for (var i = 1; i < last_interval; i++) {
+            clearInterval(i);
+        }
         chrome.browserAction.setIcon({path: 'transparent.png'});
         chrome.browserAction.setBadgeText({'text': 'off'});
     };
@@ -29,11 +35,9 @@ function show_status() {
     });
 }
 
-setInterval(watchdog, 1000);
-
 chrome.browserAction.onClicked.addListener(function(tab) {
-    localStorage['url'] = chrome.tabs.query(
-        {active: true, currentWindow: true}, function (tabs) {
-          localStorage.url = tabs[0].url.replace(/#.*$/, '');
-        });
+    localStorage.url = tab.url.replace(/#.*$/, '');
+    watchdog();
 });
+
+watchdog();
