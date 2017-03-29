@@ -1,15 +1,10 @@
-
-i = 0;
-
-function changeBadge() {
-  if (i == 0) {
-    chrome.browserAction.setBadgeText({text: '0'});
-    i = 1;
-  }
-  else {
-    chrome.browserAction.setBadgeText({text: '1'});
-    i = 0;
-  };
+function watchdog() {
+    if (localStorage['url'].includes('.ipynb')) {
+        show_status();
+    } else {
+        chrome.browserAction.setIcon({path: 'transparent.png'});
+        chrome.browserAction.setBadgeText({'text': 'off'});
+    };
 };
 
 function show_status() {
@@ -26,18 +21,19 @@ function show_status() {
                         } else {
                             path = 'gray.png';
                         };
-                        chrome.browserAction.setIcon({path: path})
+                        chrome.browserAction.setIcon({path: path});
+                        chrome.browserAction.setBadgeText({'text': ''});
                     }
                 });
         }
     });
 }
 
-setInterval(show_status, 1000);
+setInterval(watchdog, 1000);
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     localStorage['url'] = chrome.tabs.query(
         {active: true, currentWindow: true}, function (tabs) {
-          localStorage.url = tabs[0].url.replace(/#.*$/,'');
+          localStorage.url = tabs[0].url.replace(/#.*$/, '');
         });
 });

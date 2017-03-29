@@ -1,13 +1,13 @@
 {
-  "name": "My Bookmarks",
-  "version": "1.1",
-  "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+  "name": "Monitor jupyter notebook",
+  "version": "0.1",
+  "description": "Show icon according to jupyter notebook busy-idle status.",
   "permissions": [
-    "bookmarks", "tabs", "http://*/*", "https://*/*", "storage"
+    "tabs", "http://*/*", "https://*/*", "storage"
   ],
   "browser_action": {
-      "default_title": "My Bookmarks",
-      "default_icon": "gray.png"
+      "default_title": "Monitor jupyter notebook",
+      "default_icon": "transparent.png"
   },
   "background": {
     "scripts": ["background.js"]
